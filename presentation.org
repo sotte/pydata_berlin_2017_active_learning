@@ -1,0 +1,333 @@
+#+REVEAL_ROOT: reveal.js
+#+REVEAL_THEME: serif
+#+REVEAL_TRANS: slide
+#+OPTIONS: reveal_title_slide:nil
+#+OPTIONS: toc:nil
+#+OPTIONS: num:nil
+#+OPTIONS: reveal_history:t
+* On Bandits and Swipes -- Gamification of Search
+/Stefan Otte/
+
+https://goo.gl/8JgirR
+
+[[./img/qr.png]]
+* Active Learning or: How I Learned to Stop Worrying and Love Small Data
+#+BEGIN_NOTES
+- spiritual title
+- show of hands
+#+END_NOTES
+* 
+/Stefan Otte/
+
+https://github.com/sotte
+
+** 
+:PROPERTIES: 
+:reveal_background: img/pr2.jpg
+:reveal_background_size: 80%
+:END:
+** 
+:PROPERTIES: 
+:reveal_background: img/um.png
+:reveal_background_size: 400px
+:END:
+* 
+:PROPERTIES: 
+:reveal_background: img/cars.png
+:reveal_background_size: 100%
+:END:
+* 
+:PROPERTIES: 
+:reveal_background: img/cars2.png
+:reveal_background_size: 100%
+:END:
+* 
+:PROPERTIES: 
+:reveal_background: img/cars3.png
+:reveal_background_size: 100%
+:END:
+* 
+:PROPERTIES: 
+:reveal_background: img/cars4.png
+:reveal_background_size: 100%
+:END:
+* 
+:PROPERTIES: 
+:reveal_background: img/cars5.png
+:reveal_background_size: 100%
+:END:
+* 
+[[./img/cinder.png]]
+* /"Nothing Is Quite So Practical as a Good Theory"/ 
+-- Kurt Lewin
+* Active Learning
+** 
+/"The key idea behind *active learning* is that a machine learning algorithm can achieve *greater accuracy* with *fewer training labels* if it is allowed to *choose the data* from which it learns./
+** 
+/An active learner may *pose queries*, usually in the form of unlabeled data instances to be labeled by an oracle (e.g., a human annotator)./
+** 
+/Active learning is well-motivated in many modern machine learning problems, where unlabeled data may be abundant or easily obtained, but *labels are difficult, time-consuming, or expensive to obtain*."/
+
+-- Burr Settles, Active Learning Literature Survey
+
+#+BEGIN_NOTES
+- greater accuracy
+- fewer training labels
+- pose queries
+- when labels are expensive
+#+END_NOTES
+** 
+:PROPERTIES: 
+:reveal_background: img/al.png
+:reveal_background_trans: slide
+:reveal_background_size: 50%
+:END:
+
+** 
+:PROPERTIES: 
+:reveal_background: img/burr_settles.jpg
+:reveal_background_trans: slide
+:END:
+
+** 
+greater accuracy with fewer training labels
+
+#+ATTR_REVEAL: :frag (roll-in)
+*\rightarrow "good data^{TM}"*
+ 
+actively query for data
+
+#+ATTR_REVEAL: :frag (roll-in)
+*\rightarrow sequential decision making*
+
+#+BEGIN_NOTES
+the essence of active learning
+#+END_NOTES
+* ${\huge \textbf{X} \rightarrow} \begin{bmatrix} cat\\ dog\\ \vdots\\ cat \end{bmatrix}$
+* ${\huge \textbf{X} \rightarrow} \begin{bmatrix} ?\\ ?\\ \vdots\\ ? \end{bmatrix}$
+* What is *Interesting*?
+* 
+:PROPERTIES: 
+:reveal_background: img/al_scenarios.svg.p0.svg
+:reveal_background_trans: slide
+:reveal_background_size: 50%
+:END:
+* 
+:PROPERTIES: 
+:reveal_background: img/al_scenarios.svg.p1.svg
+:reveal_background_trans: slide
+:reveal_background_size: 50%
+:END:
+* 
+:PROPERTIES: 
+:reveal_background: img/al_scenarios.svg.p2.svg
+:reveal_background_trans: slide
+:reveal_background_size: 50%
+:END:
+* 
+:PROPERTIES: 
+:reveal_background: img/al_scenarios.svg.p3.svg
+:reveal_background_trans: slide
+:reveal_background_size: 50%
+:END:
+* 
+:PROPERTIES: 
+:reveal_background: img/al_scenarios.svg.p4.svg
+:reveal_background_trans: slide
+:reveal_background_size: 50%
+:END:
+* 
+:PROPERTIES: 
+:reveal_background: img/al_scenarios.svg.p5.svg
+:reveal_background_trans: slide
+:reveal_background_size: 50%
+:END:
+* 
+:PROPERTIES: 
+:reveal_background: img/al_scenarios.svg.p6.svg
+:reveal_background_trans: slide
+:reveal_background_size: 50%
+:END:
+* 
+:PROPERTIES: 
+:reveal_background: img/al_scenarios.svg.p7.svg
+:reveal_background_trans: slide
+:reveal_background_size: 50%
+:END:
+* 
+:PROPERTIES: 
+:reveal_background: img/al_scenarios.svg.p8.svg
+:reveal_background_trans: slide
+:reveal_background_size: 50%
+:END:
+* 
+:PROPERTIES: 
+:reveal_background: img/al_scenarios.svg.p9.svg
+:reveal_background_trans: slide
+:reveal_background_size: 50%
+:END:
+* What is *Interesting*?
+#+ATTR_REVEAL: :frag appear
+- uncertainty
+  - least confident
+  - margin
+  - entropy
+- query-by-committee
+- expected model change (decision theory)
+- expected error reduction
+- expected variance reduction
+- ...
+* 
+:PROPERTIES: 
+:reveal_background: img/tcr.png
+:reveal_background_size: 100%
+:END:
+
+#+BEGIN_NOTES
+- active learning to make a robot explore and learn a room
+- learn properties of the world (movable and in what way)
+- expected information gain
+- robot created the data, not the human
+#+END_NOTES
+* Gamification of Search
+* 
+:PROPERTIES: 
+:reveal_background: img/cars.png
+:reveal_background_size: 100%
+:END:
+* 
+:PROPERTIES: 
+:reveal_background: img/cars10.png
+:reveal_background_size: 100%
+:END:
+* 
+:PROPERTIES: 
+:reveal_background: img/cars11.png
+:reveal_background_size: 100%
+:END:
+* 
+:PROPERTIES: 
+:reveal_background: img/cars12.png
+:reveal_background_size: 100%
+:END:
+* 
+:PROPERTIES: 
+:reveal_background: img/cars13.png
+:reveal_background_size: 100%
+:END:
+* 
+:PROPERTIES: 
+:reveal_background: img/vegas.jpg
+:reveal_background_size: 100%
+:END:
+** Multi-Armed Bandits
+Problem statement
+#+ATTR_REVEAL: :frag (roll-in)
+1. Find a multi-armed bandit
+2. Play arms using bandit theory
+3. Profit $$$
+** Problem statement
+- given a bandit with $n$ arms
+- each arm $i \in {1,\dots,n}$ returns reward 
+$$y \sim P(y; \theta_i)$$
+
+#+ATTR_REVEAL: :frag (roll-in)
+*Goal*: Find a policy that 
+$$\max \sum_{t=1}^T y_t$$
+
+* UCB
+#+ATTR_REVEAL: :frag roll-in
+past performance + exploration bonus
+#+BEGIN_NOTES
+- Upper confident bound
+- Greedy
+- Not optimal, but bounded
+- "Optimism in the face of uncertainty"
+- Exploration vs Exploitation
+- Many variations of UCB
+#+END_NOTES
+
+** UCB1
+#+ATTR_REVEAL: :frag roll-in
+Play each bandit once
+
+#+ATTR_REVEAL: :frag roll-in
+Then play bandit that $$\Large \arg\max_i \; \bar\mu_i + \sqrt{\frac{2\ln n}{n_i}}$$
+#+ATTR_REVEAL: :frag roll-in
+  - $\bar\mu_i$: mean reward of bandit $i$
+  - $n$: total rounds played
+  - $n_i$: rounds bandit $i$ was played
+
+* Demo
+* One Bandit per Feature
+#+ATTR_REVEAL: :frag (roll-in)
+- brand bandit
+- car body bandit
+- segment bandit
+
+#+BEGIN_NOTES
+- brand: Porsche, VW, ...
+- car body: SUV, mini, copue, ...
+- segment: sports car, economy car, mittelklasse, ...
+
+each bandit creates a *ranking* for the given feature
+#+END_NOTES
+* Ranking with Elasticsearch
+#+BEGIN_NOTES
+- made for creating rankings
+- output of bandits is input of elasticsearch query
+#+END_NOTES
+[[./img/es_ranking.png]]
+[[./img/es.png]]
+* Popularity Bias
+:PROPERTIES: 
+:reveal_background: img/bias.png
+:reveal_background_size: 100%
+:END:
+* 
+:PROPERTIES: 
+:reveal_background: img/segmentation.png
+:reveal_background_size: 120%
+:END:
+#+BEGIN_NOTES
+- Sparse PCA to find set of sparse components that can optimally reconstruct the data
+- Then clustering
+#+END_NOTES
+* Practical Remarks
+#+ATTR_REVEAL: :frag (roll-in)
+- Pythons all the way down ;D
+- sklearn
+- Flask REST API
+- Elasticsearch
+* Conclusion
+#+ATTR_REVEAL: :frag roll-in
+Active Learning or: How I Learned to Stop Worrying and Love Small Data
+
+* Related Topics
+- Sequential Decision Making
+- Global Optimizaiton
+- Experimental Design
+- (Bayesian) Reinforcement Learning
+- Optimal solution exists: planning in *belief space*, but is infeasible
+- Tuning hyperparams with [[https://github.com/zygmuntz/hyperband][Hyperband]]
+* Thanks!
+*Questions?*
+
+/Stefan Otte/
+
+https://goo.gl/8JgirR
+
+[[./img/qr.png]]
+* References
+- [[http://burrsettles.com/pub/settles.activelearning.pdf][Active Learning Literature Survey]]
+- [[http://homes.dsi.unimi.it/~cesabian/Pubblicazioni/ml-02.pdf][Finite-time Analysis of the Multiarmed Bandit Problem - Auer et al]]
+- [[https://ipvs.informatik.uni-stuttgart.de/mlr/marc/teaching/14-BanditsOptimizationActiveLearningBayesianRL.pdf][Bandits, Global Optimization, Active Learning, and Bayesian RL -- understanding the common ground - Toussaint]] [[https://www.youtube.com/watch?v=5rev-zVx1Ps][video]]
+
+* Thanks!
+*Questions?*
+
+/Stefan Otte/
+
+https://goo.gl/8JgirR
+
+[[./img/qr.png]]

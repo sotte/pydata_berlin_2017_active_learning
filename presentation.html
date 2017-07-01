@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title></title>
+<meta name="author" content="(Stefan Otte)"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="reveal.js/css/reveal.css"/>
+
+<link rel="stylesheet" href="reveal.js/css/theme/serif.css" id="theme"/>
+
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section>
+<section id="slide-orgb9877a6">
+<h2 id="orgb9877a6">On Bandits and Swipes &#x2013; Gamification of Search</h2>
+<p>
+<i>Stefan Otte</i>
+</p>
+
+<p>
+<a href="https://goo.gl/8JgirR">https://goo.gl/8JgirR</a>
+</p>
+
+
+<div class="figure">
+<p><img src="./img/qr.png" alt="qr.png" />
+</p>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-orgaa4b314">
+<h2 id="orgaa4b314">Active Learning or: How I Learned to Stop Worrying and Love Small Data</h2>
+<aside class="notes">
+<ul>
+<li>spiritual title</li>
+<li>show of hands</li>
+
+</ul>
+
+</aside>
+</section>
+</section>
+<section>
+<section id="slide-org5cd69f8">
+<h2 id="org5cd69f8"></h2>
+<p>
+<i>Stefan Otte</i>
+</p>
+
+<p>
+<a href="https://github.com/sotte">https://github.com/sotte</a>
+</p>
+
+</section>
+<section id="slide-orga9a1740" data-background="img/pr2.jpg" data-background-size="80%">
+<h3 id="orga9a1740"></h3>
+</section>
+<section id="slide-org4f1d273" data-background="img/um.png" data-background-size="400px">
+<h3 id="org4f1d273"></h3>
+</section>
+</section>
+<section>
+<section id="slide-org2ec5f57" data-background="img/cars.png" data-background-size="100%">
+<h2 id="org2ec5f57"></h2>
+</section>
+</section>
+<section>
+<section id="slide-org7cf08ea" data-background="img/cars2.png" data-background-size="100%">
+<h2 id="org7cf08ea"></h2>
+</section>
+</section>
+<section>
+<section id="slide-org819e512" data-background="img/cars3.png" data-background-size="100%">
+<h2 id="org819e512"></h2>
+</section>
+</section>
+<section>
+<section id="slide-org5dbfda5" data-background="img/cars4.png" data-background-size="100%">
+<h2 id="org5dbfda5"></h2>
+</section>
+</section>
+<section>
+<section id="slide-org4e55206" data-background="img/cars5.png" data-background-size="100%">
+<h2 id="org4e55206"></h2>
+</section>
+</section>
+<section>
+<section id="slide-orga83b672">
+<h2 id="orga83b672"></h2>
+
+<div class="figure">
+<p><img src="./img/cinder.png" alt="cinder.png" />
+</p>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-orgf6ce3be">
+<h2 id="orgf6ce3be"><i>"Nothing Is Quite So Practical as a Good Theory"</i></h2>
+<p>
+&#x2013; Kurt Lewin
+</p>
+</section>
+</section>
+<section>
+<section id="slide-orgaa69438">
+<h2 id="orgaa69438">Active Learning</h2>
+<div class="outline-text-2" id="text-orgaa69438">
+</div></section>
+<section id="slide-orge47c816">
+<h3 id="orge47c816"></h3>
+<p>
+<i>"The key idea behind <b>active learning</b> is that a machine learning algorithm can achieve <b>greater accuracy</b> with <b>fewer training labels</b> if it is allowed to <b>choose the data</b> from which it learns.</i>
+</p>
+</section>
+<section id="slide-orgd3cfaef">
+<h3 id="orgd3cfaef"></h3>
+<p>
+<i>An active learner may <b>pose queries</b>, usually in the form of unlabeled data instances to be labeled by an oracle (e.g., a human annotator).</i>
+</p>
+</section>
+<section id="slide-org086cc33">
+<h3 id="org086cc33"></h3>
+<p>
+<i>Active learning is well-motivated in many modern machine learning problems, where unlabeled data may be abundant or easily obtained, but <b>labels are difficult, time-consuming, or expensive to obtain</b>."</i>
+</p>
+
+<p>
+&#x2013; Burr Settles, Active Learning Literature Survey
+</p>
+
+<aside class="notes">
+<ul>
+<li>greater accuracy</li>
+<li>fewer training labels</li>
+<li>pose queries</li>
+<li>when labels are expensive</li>
+
+</ul>
+
+</aside>
+</section>
+<section id="slide-org2448c1f" data-background="img/al.png" data-background-size="50%" data-background-transition="slide">
+<h3 id="org2448c1f"></h3>
+
+</section>
+<section id="slide-org2c8c382" data-background="img/burr_settles.jpg" data-background-transition="slide">
+<h3 id="org2c8c382"></h3>
+
+</section>
+<section id="slide-orga6a627d">
+<h3 id="orga6a627d"></h3>
+<p>
+greater accuracy with fewer training labels
+</p>
+
+<p class="fragment (roll-in)">
+<b>&rarr; "good data<sup>TM</sup>"</b>
+</p>
+
+<p>
+actively query for data
+</p>
+
+<p class="fragment (roll-in)">
+<b>&rarr; sequential decision making</b>
+</p>
+
+<aside class="notes">
+<p>
+the essence of active learning
+</p>
+
+</aside>
+</section>
+</section>
+<section>
+<section id="slide-org761c65c">
+<h2 id="org761c65c">\({\huge \textbf{X} \rightarrow} \begin{bmatrix} cat\\ dog\\ \vdots\\ cat \end{bmatrix}\)</h2>
+</section>
+</section>
+<section>
+<section id="slide-org9a8895d">
+<h2 id="org9a8895d">\({\huge \textbf{X} \rightarrow} \begin{bmatrix} ?\\ ?\\ \vdots\\ ? \end{bmatrix}\)</h2>
+</section>
+</section>
+<section>
+<section id="slide-org376e71c">
+<h2 id="org376e71c">What is <b>Interesting</b>?</h2>
+</section>
+</section>
+<section>
+<section id="slide-org88a4369" data-background="img/al_scenarios.svg.p0.svg" data-background-size="50%" data-background-transition="slide">
+<h2 id="org88a4369"></h2>
+</section>
+</section>
+<section>
+<section id="slide-org73234f4" data-background="img/al_scenarios.svg.p1.svg" data-background-size="50%" data-background-transition="slide">
+<h2 id="org73234f4"></h2>
+</section>
+</section>
+<section>
+<section id="slide-orgc1b696c" data-background="img/al_scenarios.svg.p2.svg" data-background-size="50%" data-background-transition="slide">
+<h2 id="orgc1b696c"></h2>
+</section>
+</section>
+<section>
+<section id="slide-org6bec5a3" data-background="img/al_scenarios.svg.p3.svg" data-background-size="50%" data-background-transition="slide">
+<h2 id="org6bec5a3"></h2>
+</section>
+</section>
+<section>
+<section id="slide-org38d9863" data-background="img/al_scenarios.svg.p4.svg" data-background-size="50%" data-background-transition="slide">
+<h2 id="org38d9863"></h2>
+</section>
+</section>
+<section>
+<section id="slide-org1a3d323" data-background="img/al_scenarios.svg.p5.svg" data-background-size="50%" data-background-transition="slide">
+<h2 id="org1a3d323"></h2>
+</section>
+</section>
+<section>
+<section id="slide-orge64496c" data-background="img/al_scenarios.svg.p6.svg" data-background-size="50%" data-background-transition="slide">
+<h2 id="orge64496c"></h2>
+</section>
+</section>
+<section>
+<section id="slide-org902ff6c" data-background="img/al_scenarios.svg.p7.svg" data-background-size="50%" data-background-transition="slide">
+<h2 id="org902ff6c"></h2>
+</section>
+</section>
+<section>
+<section id="slide-orgd49b3aa" data-background="img/al_scenarios.svg.p8.svg" data-background-size="50%" data-background-transition="slide">
+<h2 id="orgd49b3aa"></h2>
+</section>
+</section>
+<section>
+<section id="slide-orgb5b013b" data-background="img/al_scenarios.svg.p9.svg" data-background-size="50%" data-background-transition="slide">
+<h2 id="orgb5b013b"></h2>
+</section>
+</section>
+<section>
+<section id="slide-orgc3b51dd">
+<h2 id="orgc3b51dd">What is <b>Interesting</b>?</h2>
+<ul class="fragment appear">
+<li>uncertainty
+<ul>
+<li>least confident</li>
+<li>margin</li>
+<li>entropy</li>
+
+</ul></li>
+<li>query-by-committee</li>
+<li>expected model change (decision theory)</li>
+<li>expected error reduction</li>
+<li>expected variance reduction</li>
+<li>&#x2026;</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-orge7f6263" data-background="img/tcr.png" data-background-size="100%">
+<h2 id="orge7f6263"></h2>
+<aside class="notes">
+<ul>
+<li>active learning to make a robot explore and learn a room</li>
+<li>learn properties of the world (movable and in what way)</li>
+<li>expected information gain</li>
+<li>robot created the data, not the human</li>
+
+</ul>
+
+</aside>
+</section>
+</section>
+<section>
+<section id="slide-orgb6b3bb2">
+<h2 id="orgb6b3bb2">Gamification of Search</h2>
+</section>
+</section>
+<section>
+<section id="slide-org653900f" data-background="img/cars.png" data-background-size="100%">
+<h2 id="org653900f"></h2>
+</section>
+</section>
+<section>
+<section id="slide-org54ffd4b" data-background="img/cars10.png" data-background-size="100%">
+<h2 id="org54ffd4b"></h2>
+</section>
+</section>
+<section>
+<section id="slide-org7d51d42" data-background="img/cars11.png" data-background-size="100%">
+<h2 id="org7d51d42"></h2>
+</section>
+</section>
+<section>
+<section id="slide-org1542f73" data-background="img/cars12.png" data-background-size="100%">
+<h2 id="org1542f73"></h2>
+</section>
+</section>
+<section>
+<section id="slide-org61ed4be" data-background="img/cars13.png" data-background-size="100%">
+<h2 id="org61ed4be"></h2>
+</section>
+</section>
+<section>
+<section id="slide-org82c6997" data-background="img/vegas.jpg" data-background-size="100%">
+<h2 id="org82c6997"></h2>
+</section>
+<section id="slide-org13ee7ff">
+<h3 id="org13ee7ff">Multi-Armed Bandits</h3>
+<p>
+Problem statement
+</p>
+<ol>
+<li class="fragment roll-in">Find a multi-armed bandit</li>
+<li class="fragment roll-in">Play arms using bandit theory</li>
+<li class="fragment roll-in">Profit $$$</li>
+
+</ol>
+</section>
+<section id="slide-org6cca3d8">
+<h3 id="org6cca3d8">Problem statement</h3>
+<ul>
+<li>given a bandit with \(n\) arms</li>
+<li>each arm \(i \in {1,\dots,n}\) returns reward</li>
+
+</ul>
+<p>
+\[y \sim P(y; \theta_i)\]
+</p>
+
+<p class="fragment (roll-in)">
+<b>Goal</b>: Find a policy that 
+\[\max \sum_{t=1}^T y_t\]
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-orga1a0565">
+<h2 id="orga1a0565">UCB</h2>
+<p class="fragment roll-in">
+past performance + exploration bonus
+</p>
+<aside class="notes">
+<ul>
+<li>Upper confident bound</li>
+<li>Greedy</li>
+<li>Not optimal, but bounded</li>
+<li>"Optimism in the face of uncertainty"</li>
+<li>Exploration vs Exploitation</li>
+<li>Many variations of UCB</li>
+
+</ul>
+
+</aside>
+
+</section>
+<section id="slide-org6fa8660">
+<h3 id="org6fa8660">UCB1</h3>
+<p class="fragment roll-in">
+Play each bandit once
+</p>
+
+<p class="fragment roll-in">
+Then play bandit that \[\Large \arg\max_i \; \bar\mu_i + \sqrt{\frac{2\ln n}{n_i}}\]
+</p>
+<ul class="fragment roll-in">
+<li>\(\bar\mu_i\): mean reward of bandit \(i\)</li>
+<li>\(n\): total rounds played</li>
+<li>\(n_i\): rounds bandit \(i\) was played</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-org5ba9c3b">
+<h2 id="org5ba9c3b">Demo</h2>
+</section>
+</section>
+<section>
+<section id="slide-orgeba45d7">
+<h2 id="orgeba45d7">One Bandit per Feature</h2>
+<ul>
+<li class="fragment roll-in">brand bandit</li>
+<li class="fragment roll-in">car body bandit</li>
+<li class="fragment roll-in">segment bandit</li>
+
+</ul>
+
+<aside class="notes">
+<ul>
+<li>brand: Porsche, VW, &#x2026;</li>
+<li>car body: SUV, mini, copue, &#x2026;</li>
+<li>segment: sports car, economy car, mittelklasse, &#x2026;</li>
+
+</ul>
+
+<p>
+each bandit creates a <b>ranking</b> for the given feature
+</p>
+
+</aside>
+</section>
+</section>
+<section>
+<section id="slide-orgd44ae68">
+<h2 id="orgd44ae68">Ranking with Elasticsearch</h2>
+<aside class="notes">
+<ul>
+<li>made for creating rankings</li>
+<li>output of bandits is input of elasticsearch query</li>
+
+</ul>
+
+</aside>
+<p>
+<img src="./img/es_ranking.png" alt="es_ranking.png" />
+<img src="./img/es.png" alt="es.png" />
+</p>
+</section>
+</section>
+<section>
+<section id="slide-org49125c4" data-background="img/bias.png" data-background-size="100%">
+<h2 id="org49125c4">Popularity Bias</h2>
+</section>
+</section>
+<section>
+<section id="slide-org44e1300" data-background="img/segmentation.png" data-background-size="120%">
+<h2 id="org44e1300"></h2>
+<aside class="notes">
+<ul>
+<li>Sparse PCA to find set of sparse components that can optimally reconstruct the data</li>
+<li>Then clustering</li>
+
+</ul>
+
+</aside>
+</section>
+</section>
+<section>
+<section id="slide-org757a326">
+<h2 id="org757a326">Practical Remarks</h2>
+<ul>
+<li class="fragment roll-in">Python all the way down ;D</li>
+<li class="fragment roll-in">sklearn</li>
+<li class="fragment roll-in">Flask REST API</li>
+<li class="fragment roll-in">Elasticsearch</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-orgf4d82a3">
+<h2 id="orgf4d82a3">Conclusion</h2>
+<p class="fragment roll-in">
+Active Learning or: How I Learned to Stop Worrying and Love Small Data
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-orge3f2e0f">
+<h2 id="orge3f2e0f">Related Topics</h2>
+<ul>
+<li>Sequential Decision Making</li>
+<li>Global Optimizaiton</li>
+<li>Experimental Design</li>
+<li>(Bayesian) Reinforcement Learning</li>
+<li>Optimal solution exists: planning in <b>belief space</b>, but is infeasible</li>
+<li>Tuning hyperparams with <a href="https://github.com/zygmuntz/hyperband">Hyperband</a></li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-org139daf0">
+<h2 id="org139daf0">Thanks!</h2>
+<p>
+<b>Questions?</b>
+</p>
+
+<p>
+<i>Stefan Otte</i>
+</p>
+
+<p>
+<a href="https://goo.gl/8JgirR">https://goo.gl/8JgirR</a>
+</p>
+
+
+<div class="figure">
+<p><img src="./img/qr.png" alt="qr.png" />
+</p>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-org6d93b75">
+<h2 id="org6d93b75">References</h2>
+<ul>
+<li><a href="http://burrsettles.com/pub/settles.activelearning.pdf">Active Learning Literature Survey</a></li>
+<li><a href="http://homes.dsi.unimi.it/~cesabian/Pubblicazioni/ml-02.pdf">Finite-time Analysis of the Multiarmed Bandit Problem - Auer et al</a></li>
+<li><a href="https://ipvs.informatik.uni-stuttgart.de/mlr/marc/teaching/14-BanditsOptimizationActiveLearningBayesianRL.pdf">Bandits, Global Optimization, Active Learning, and Bayesian RL &#x2013; understanding the common ground - Toussaint</a> <a href="https://www.youtube.com/watch?v=5rev-zVx1Ps">video</a></li>
+
+</ul>
+</section>
+</section>
+</div>
+</div>
+<script src="reveal.js/lib/js/head.min.js"></script>
+<script src="reveal.js/js/reveal.js"></script>
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: true,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+overview: true,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'slide', // default/cube/page/concave/zoom/linear/fade/none
+transitionSpeed: 'default',
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: 'reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+ { src: 'reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: 'reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }]
+});
+</script>
+</body>
+</html>
