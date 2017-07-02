@@ -1,6 +1,6 @@
 Bandits and Swipes - Gamification of Search
 ===================================================
-PyData Berlin 2017 talk by Stefan Otte
+PyData Berlin 2017 talk by Stefan Otte - https://pydata.org/berlin2017/schedule/presentation/32/
 
 Online presentation via github pages at https://sotte.github.io/pydata_berlin_2017_active_learning/
 
